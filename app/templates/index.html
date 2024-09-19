@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+    <head>
+        <title>We are the Champions</title>
+    </head>
+    <body>
+        <h1>Rankings</h1>
+        {% for group in groups %}
+        <div><h2>Group {{ group }}</h2></div>
+        {% for team in groups[group] %}
+        <div><p>{{ team.name }} {{ team.registration_date }}</p></div>
+        {% endfor %}
+        {% endfor %}
+    </body>
+</html>
