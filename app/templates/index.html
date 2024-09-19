@@ -4,6 +4,15 @@
         <title>We are the Champions</title>
     </head>
     <body>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
         <h1>Rankings</h1>
         {% for group in groups %}
         <div><h2>Group {{ group }}</h2></div>
@@ -11,5 +20,16 @@
         <div><p>{{ team.name }} {{ team.registration_date }}</p></div>
         {% endfor %}
         {% endfor %}
+        <h1>Submit Teams</h1>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.teams(cols=32, rows=4) }}<br>
+                {% for error in form.teams.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
     </body>
 </html>

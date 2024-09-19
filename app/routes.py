@@ -1,9 +1,10 @@
-from flask import render_template
+from flask import render_template, flash, redirect, url_for
 from app import app
+from app.forms import TeamsForm
 import datetime
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     groups = {
         1: [
@@ -27,4 +28,7 @@ def index():
             },
         ]
     }
-    return render_template('index.html', groups=groups)
+    form = TeamsForm()
+    if form.validate_on_submit():
+        flash(f"Data: {form.teams.data}")
+    return render_template('index.html', groups=groups, form=form)
