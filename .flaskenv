@@ -1,1 +1,2 @@
 FLASK_APP=scoreboard.py
+FLASK_DEBUG=1
