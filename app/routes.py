@@ -1,6 +1,8 @@
 from flask import render_template, flash, redirect, url_for
 from app import app
 from app.forms import TeamsForm
+from app.models import TEAMS, MATCHES
+from app.parser import parse_teams
 import datetime
 
 @app.route('/', methods=['GET', 'POST'])
@@ -28,7 +30,8 @@ def index():
             },
         ]
     }
-    form = TeamsForm()
-    if form.validate_on_submit():
-        flash(f"Data: {form.teams.data}")
-    return render_template('index.html', groups=groups, form=form)
+    teams_form = TeamsForm()
+    if teams_form.validate_on_submit():
+        parse_teams(teams_form.teams.data)
+        flash(f"Data: {teams_form.teams.data}")
+    return render_template('index.html', teams=TEAMS, teams_form=teams_form)
