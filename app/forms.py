@@ -9,3 +9,6 @@ class TeamsForm(FlaskForm):
 class MatchesForm(FlaskForm):
     matches = TextAreaField('Matches Input', validators=[Length(min=1)])
     submit = SubmitField('Submit Matches')
+
+class ClearForm(FlaskForm):
+    submit = SubmitField('Clear all data')

@@ -97,3 +97,8 @@ def get_groups():
     for group in groups.values():
         group.sort(key=lambda team: team.rank)
     return groups
+
+
+def clear_data():
+    TEAMS.clear()
+    MATCHES.clear()
