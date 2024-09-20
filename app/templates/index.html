@@ -16,8 +16,10 @@
         <h1>Rankings</h1>
         {% for group in teams %}
         <div><h2>Group {{ group }}</h2></div>
-        {% for team in teams[group] %}
-        <div><p>{{ team }}</p></div>
+        {% for i in range(teams[group]|length) %}
+        <div>
+            <p>{{ teams[group][i] }} {% if i < 4 %} <b>Qualifiying</b> {% endif %}</p>
+        </div>
         {% endfor %}
         {% endfor %}
         <h2>Submit Teams</h2>
