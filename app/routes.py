@@ -16,8 +16,8 @@ def clear():
     app.logger.info("Cleared all teams and matches")
     return redirect(url_for('index'))
     
-@app.route('/teams', methods=['GET', 'POST'])
-def teams():
+@app.route('/add_teams', methods=['GET', 'POST'])
+def add_teams():
     teams_form = TeamsForm()
     if teams_form.validate_on_submit():
         # flash(f"teams: {teams_form.teams.data}")
@@ -26,10 +26,10 @@ def teams():
             add_team(team)
             app.logger.info(f"Added team {team}")
         return redirect(url_for('index'))
-    return render_template('teams.html', teams_form=teams_form)
+    return render_template('add_teams.html', teams_form=teams_form)
     
-@app.route('/matches', methods=['GET', 'POST'])
-def matches():
+@app.route('/add_matches', methods=['GET', 'POST'])
+def add_matches():
     matches_form = MatchesForm()
     if matches_form.validate_on_submit():
         # flash(f"matches: {matches_form.matches.data}")
@@ -38,4 +38,4 @@ def matches():
             add_match(match)
             app.logger.info(f"Added match {match}")
         return redirect(url_for('index'))
-    return render_template('matches.html', matches_form=matches_form)
+    return render_template('add_matches.html', matches_form=matches_form)

@@ -94,6 +94,9 @@ def add_team(team):
 def add_match(match):
     MATCHES.append(match)
 
+def get_team(team_name):
+    return TEAMS[team_name]
+
 def get_groups():
     group_numbers = set(team.group for team in TEAMS.values())
     groups = {group: [] for group in sorted(group_numbers)}

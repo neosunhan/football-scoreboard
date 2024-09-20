@@ -1,6 +1,6 @@
 import datetime
 
-from app.models import Team, Match, TEAMS
+from app.models import Team, Match, get_team
 
 REG_DATE_FORMAT = r"%d/%m"
 
@@ -22,7 +22,7 @@ def parse_matches(matches_str):
         if len(match_str.strip()) == 0: 
             continue
         home, away, home_goals, away_goals = match_str.split()
-        home, away = TEAMS[home], TEAMS[away]
+        home, away = get_team(home), get_team(away)
         home_goals, away_goals = int(home_goals), int(away_goals)
         matches.append(Match(home=home, away=away, home_goals=home_goals, away_goals=away_goals))
     return matches
