@@ -3,6 +3,9 @@ from wtforms import TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length
 
 class TeamsForm(FlaskForm):
-    teams = TextAreaField('Teams Input', validators=[DataRequired(), Length(min=1)])
+    teams = TextAreaField('Teams Input')
     submit = SubmitField('Submit Teams')
 
+class MatchesForm(FlaskForm):
+    matches = TextAreaField('Matches Input')
+    submit = SubmitField('Submit Matches')
