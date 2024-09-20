@@ -3,14 +3,14 @@
 {% block content %}
     <h2>Add Teams</h2>
     <form action="" method="post">
-        {{ teams_form.hidden_tag() }}
+        {{ add_teams_form.hidden_tag() }}
         <p>Team name must not contain whitespace</p>
         <p>
-            {{ teams_form.teams(cols=32, rows=4) }}<br>
-            {% for error in teams_form.teams.errors %}
+            {{ add_teams_form.teams(cols=32, rows=4) }}<br>
+            {% for error in add_teams_form.teams.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>{{ teams_form.submit() }}</p>
+        <p>{{ add_teams_form.submit() }}</p>
     </form>
 {% endblock %}

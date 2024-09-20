@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Enter a valid team name to show more details</h2>
+    <form action="" method="post">
+        {{ team_name_form.hidden_tag() }}
+        <p>
+            {{ team_name_form.team.label }}<br>
+            {{ team_name_form.team(size=32) }}
+        </p>
+        <p>{{ team_name_form.submit() }}</p>
+    </form>
+    {% if team %}
+    <p>Team Name: {{ team.name }}</p>
+    <p>Registration Date: {{ team.reg_date_formatted }}</p>
+    <p>Matches:</p>
+    {% for match in team.matches %}
+    <p>{{ match }}</p>
+    {% endfor %}
+    {% endif %}
+{% endblock %}

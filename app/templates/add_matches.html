@@ -3,13 +3,13 @@
 {% block content %}
     <h2>Add Matches</h2>
     <form action="" method="post">
-        {{ matches_form.hidden_tag() }}
+        {{ add_matches_form.hidden_tag() }}
         <p>
-            {{ matches_form.matches(cols=32, rows=4) }}<br>
-            {% for error in matches_form.matches.errors %}
+            {{ add_matches_form.matches(cols=32, rows=4) }}<br>
+            {% for error in add_matches_form.matches.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>{{ matches_form.submit() }}</p>
+        <p>{{ add_matches_form.submit() }}</p>
     </form>
 {% endblock %}

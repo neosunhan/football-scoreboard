@@ -14,20 +14,23 @@ class Team:
         self.goals = 0
         self.matches = []
 
-    def win_match(self):
+    def win_match(self, match, goals):
         self.wins += 1
+        self.matches.append(match)
+        self.goals += goals
     
-    def lose_match(self):
+    def lose_match(self, match, goals):
         self.losses += 1
-
-    def draw_match(self):
-        self.draws += 1
-
-    def score_goals(self, goals):
+        self.matches.append(match)
         self.goals += goals
 
-    def __eq__(self, other):
-        return self.name == other.name
+    def draw_match(self, match, goals):
+        self.draws += 1
+        self.matches.append(match)
+        self.goals += goals
+
+    def get_name(self):
+        return self.name
 
     @property
     def points(self):
@@ -41,9 +44,16 @@ class Team:
     def rank(self):
         return (-self.points, -self.goals, -self.alternative_points, self.reg_date)
     
+    @property
+    def reg_date_formatted(self):
+        return self.reg_date.strftime(REG_DATE_FORMAT)
+    
+    def __eq__(self, other):
+        return self.name == other.name
+    
     def __repr__(self):
         return f"{self.name}, {self.points} points, {self.goals} goals, " \
-            + f"{self.alternative_points} alt points, registered {self.reg_date.strftime(REG_DATE_FORMAT)}"
+            + f"{self.alternative_points} alt points, registered {self.reg_date_formatted}"
 
 class Match:
     WIN, DRAW, LOSE = "WIN", "DRAW", "LOSE"
@@ -55,17 +65,15 @@ class Match:
         self.away_goals = away_goals
 
         if self.home_goals > self.away_goals:
-            self.home.win_match()
-            self.away.lose_match()
+            self.home.win_match(self, self.home_goals)
+            self.away.lose_match(self, self.away_goals)
         elif self.home_goals < self.away_goals:
-            self.home.lose_match()
-            self.away.win_match()
+            self.home.lose_match(self, self.home_goals)
+            self.away.win_match(self, self.away_goals)
         else:
-            self.home.draw_match()
-            self.away.draw_match()
+            self.home.draw_match(self, self.home_goals)
+            self.away.draw_match(self, self.away_goals)
 
-        self.home.score_goals(self.home_goals)
-        self.away.score_goals(self.away_goals)
 
     def is_draw(self):
         return self.home_goals == self.away_goals
@@ -85,7 +93,7 @@ class Match:
             return self.home
         
     def __repr__(self):
-        return f"{self.home} {self.home_goals} - {self.away} {self.away_goals}"
+        return f"{self.home.get_name()} {self.home_goals} - {self.away.get_name()} {self.away_goals}"
 
 
 def add_team(team):
@@ -96,6 +104,9 @@ def add_match(match):
 
 def get_team(team_name):
     return TEAMS[team_name]
+
+def get_team_names():
+    return list(TEAMS.keys())
 
 def get_groups():
     group_numbers = set(team.group for team in TEAMS.values())

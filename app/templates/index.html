@@ -2,11 +2,11 @@
 
 {% block content %}
     <h1>Rankings</h1>
-    {% for group in teams %}
+    {% for group in groups %}
     <div><h2>Group {{ group }}</h2></div>
-    {% for i in range(teams[group]|length) %}
+    {% for i in range(groups[group]|length) %}
     <div>
-        <p>{{ teams[group][i] }} {% if i < 4 %} <b>Qualifiying</b> {% endif %}</p>
+        <p>{{ groups[group][i] }} {% if i < 4 %} <b>Qualifiying</b> {% endif %}</p>
     </div>
     {% endfor %}
     {% endfor %}

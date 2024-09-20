@@ -26,3 +26,6 @@ def parse_matches(matches_str):
         home_goals, away_goals = int(home_goals), int(away_goals)
         matches.append(Match(home=home, away=away, home_goals=home_goals, away_goals=away_goals))
     return matches
+
+def parse_team_name(team_name):
+    return get_team(team_name.strip())
