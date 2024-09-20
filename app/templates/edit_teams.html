@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Edit Teams</h2>
+    <form action="" method="post">
+        {{ edit_teams_form.hidden_tag() }}
+        <p>Syntax: &lt;current team name&gt; &lt;new team name&gt; &lt;new registration date in DD/MM&gt; &lt;new group number&gt;</p>
+        <p>Team name must not contain whitespace</p>
+        <p>
+            {{ edit_teams_form.teams(cols=32, rows=4) }}<br>
+            {% for error in edit_teams_form.teams.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ edit_teams_form.submit() }}</p>
+    </form>
+{% endblock %}

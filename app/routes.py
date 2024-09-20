@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for
 from app import app
-from app.forms import AddTeamsForm, AddMatchesForm, TeamNameForm
-from app.models import get_groups, clear_data, add_team, add_match, get_team_names
-from app.parser import parse_teams, parse_matches, parse_team_name
+from app.forms import AddTeamsForm, AddMatchesForm, TeamNameForm, EditTeamsForm
+from app.models import get_groups, clear_data, add_team, add_match, get_team_names, edit_team
+from app.parser import parse_add_teams, parse_add_matches, parse_team_name, parse_edit_teams
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -20,8 +20,7 @@ def clear():
 def add_teams():
     add_teams_form = AddTeamsForm()
     if add_teams_form.validate_on_submit():
-        # flash(f"teams: {teams_form.teams.data}")
-        teams = parse_teams(add_teams_form.teams.data)
+        teams = parse_add_teams(add_teams_form.teams.data)
         for team in teams:
             add_team(team)
             app.logger.info(f"Added team {team}")
@@ -32,8 +31,7 @@ def add_teams():
 def add_matches():
     add_matches_form = AddMatchesForm()
     if add_matches_form.validate_on_submit():
-        # flash(f"matches: {matches_form.matches.data}")
-        matches = parse_matches(add_matches_form.matches.data)
+        matches = parse_add_matches(add_matches_form.matches.data)
         for match in matches:
             add_match(match)
             app.logger.info(f"Added match {match}")
@@ -47,3 +45,14 @@ def team_details():
     if team_name_form.validate_on_submit():
         team = parse_team_name(team_name_form.team.data)
     return render_template('team_details.html', team_names=get_team_names(), team_name_form=team_name_form, team=team)
+
+@app.route('/edit_teams', methods=['GET', 'POST'])
+def edit_teams():
+    edit_teams_form = EditTeamsForm()
+    if edit_teams_form.validate_on_submit():
+        teams = parse_edit_teams(edit_teams_form.teams.data)
+        for team_name, (new_name, reg_date, group) in teams.items():
+            team = edit_team(team_name, new_name, reg_date, group)
+            app.logger.info(f"Edited team {team_name} to {team}")
+        return redirect(url_for('index'))
+    return render_template('edit_teams.html', edit_teams_form=edit_teams_form)

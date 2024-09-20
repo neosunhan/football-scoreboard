@@ -31,6 +31,18 @@ class Team:
 
     def get_name(self):
         return self.name
+    
+    def set_name(self, name):
+        self.name = name
+    
+    def set_reg_date(self, reg_date):
+        self.reg_date = reg_date
+
+    def get_group(self):
+        return self.group
+    
+    def set_group(self, group):
+        self.group = group
 
     @property
     def points(self):
@@ -97,7 +109,7 @@ class Match:
 
 
 def add_team(team):
-    TEAMS[team.name] = team
+    TEAMS[team.get_name()] = team
 
 def add_match(match):
     MATCHES.append(match)
@@ -105,14 +117,21 @@ def add_match(match):
 def get_team(team_name):
     return TEAMS[team_name]
 
+def edit_team(team_name, new_name, reg_date, group):
+    team = get_team(team_name)
+    team.set_name(new_name)
+    team.set_reg_date(reg_date)
+    team.set_group(group)
+    return team
+
 def get_team_names():
     return list(TEAMS.keys())
 
 def get_groups():
-    group_numbers = set(team.group for team in TEAMS.values())
+    group_numbers = set(team.get_group() for team in TEAMS.values())
     groups = {group: [] for group in sorted(group_numbers)}
     for team in TEAMS.values():
-        groups[team.group].append(team)
+        groups[team.get_group()].append(team)
     for group in groups.values():
         group.sort(key=lambda team: team.rank)
     return groups

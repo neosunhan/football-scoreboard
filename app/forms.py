@@ -13,3 +13,7 @@ class AddMatchesForm(FlaskForm):
 class TeamNameForm(FlaskForm):
     team = StringField('Team Name', validators=[DataRequired(), Length(min=1)])
     submit = SubmitField('Show team details')
+
+class EditTeamsForm(FlaskForm):
+    teams = TextAreaField('Edit Teams Input', validators=[DataRequired(), Length(min=1)])
+    submit = SubmitField('Submit New Teams')
