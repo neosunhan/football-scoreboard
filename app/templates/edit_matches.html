@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Edit matches</h2>
+    <p>Refer to list of matches below for match number</p>
+    <form action="" method="post">
+        {{ edit_matches_form.hidden_tag() }}
+        <p>Syntax: &lt;match number&gt; &lt;New Team A&gt; &lt;New Team B&gt; &lt;Team A goals scored&gt; &lt;Team B goals scored&gt;</p>
+        <p>
+            {{ edit_matches_form.matches(cols=32, rows=4) }}<br>
+            {% for error in edit_matches_form.matches.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ edit_matches_form.submit() }}</p>
+    </form>
+    <h2>Matches:</h2>
+    {% for i in range(matches|length) %}
+    <p>{{ i }}: {{ matches[i] }}</p>
+    {% endfor %}
+{% endblock %}

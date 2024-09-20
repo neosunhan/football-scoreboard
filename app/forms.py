@@ -17,3 +17,7 @@ class TeamNameForm(FlaskForm):
 class EditTeamsForm(FlaskForm):
     teams = TextAreaField('Edit Teams Input', validators=[DataRequired(), Length(min=1)])
     submit = SubmitField('Submit New Teams')
+
+class EditMatchesForm(FlaskForm):
+    matches = TextAreaField('Edit Matches Input', validators=[DataRequired(), Length(min=1)])
+    submit = SubmitField('Submit New Matches')

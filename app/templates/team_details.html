@@ -11,10 +11,10 @@
         <p>{{ team_name_form.submit() }}</p>
     </form>
     {% if team %}
-    <p>Team Name: {{ team.name }}</p>
+    <p>Team Name: {{ team.get_name() }}</p>
     <p>Registration Date: {{ team.reg_date_formatted }}</p>
     <p>Matches:</p>
-    {% for match in team.matches %}
+    {% for match in team.get_matches() %}
     <p>{{ match }}</p>
     {% endfor %}
     {% endif %}

@@ -14,20 +14,25 @@ class Team:
         self.goals = 0
         self.matches = []
 
-    def win_match(self, match, goals):
-        self.wins += 1
+    def add_match(self, match, goals, outcome):
         self.matches.append(match)
         self.goals += goals
-    
-    def lose_match(self, match, goals):
-        self.losses += 1
-        self.matches.append(match)
-        self.goals += goals
+        if outcome == Match.WIN:
+            self.wins += 1
+        elif outcome == Match.LOSE:
+            self.losses += 1
+        elif outcome == Match.DRAW:
+            self.draws += 1
 
-    def draw_match(self, match, goals):
-        self.draws += 1
-        self.matches.append(match)
-        self.goals += goals
+    def remove_match(self, match, goals, outcome):
+        self.matches.remove(match)
+        self.goals -= goals
+        if outcome == Match.WIN:
+            self.wins -= 1
+        elif outcome == Match.LOSE:
+            self.losses -= 1
+        elif outcome == Match.DRAW:
+            self.draws -= 1
 
     def get_name(self):
         return self.name
@@ -43,6 +48,9 @@ class Team:
     
     def set_group(self, group):
         self.group = group
+
+    def get_matches(self):
+        return self.matches
 
     @property
     def points(self):
@@ -77,42 +85,38 @@ class Match:
         self.away_goals = away_goals
 
         if self.home_goals > self.away_goals:
-            self.home.win_match(self, self.home_goals)
-            self.away.lose_match(self, self.away_goals)
+            self.home.add_match(self, self.home_goals, Match.WIN)
+            self.away.add_match(self, self.away_goals, Match.LOSE)
         elif self.home_goals < self.away_goals:
-            self.home.lose_match(self, self.home_goals)
-            self.away.win_match(self, self.away_goals)
+            self.home.add_match(self, self.home_goals, Match.LOSE)
+            self.away.add_match(self, self.away_goals, Match.WIN)
         else:
-            self.home.draw_match(self, self.home_goals)
-            self.away.draw_match(self, self.away_goals)
+            self.home.add_match(self, self.home_goals, Match.DRAW)
+            self.away.add_match(self, self.away_goals, Match.DRAW)    
 
-
-    def is_draw(self):
-        return self.home_goals == self.away_goals
-
-    @property
-    def winner(self):
+    def delete(self):
         if self.home_goals > self.away_goals:
-            return self.home
+            self.home.remove_match(self, self.home_goals, Match.WIN)
+            self.away.remove_match(self, self.away_goals, Match.LOSE)
         elif self.home_goals < self.away_goals:
-            return self.away
+            self.home.remove_match(self, self.home_goals, Match.LOSE)
+            self.away.remove_match(self, self.away_goals, Match.WIN)
+        else:
+            self.home.remove_match(self, self.home_goals, Match.DRAW)
+            self.away.remove_match(self, self.away_goals, Match.DRAW)
 
-    @property
-    def loser(self):
-        if self.home_goals > self.away_goals:
-            return self.away
-        elif self.home_goals < self.away_goals:
-            return self.home
-        
     def __repr__(self):
         return f"{self.home.get_name()} {self.home_goals} - {self.away.get_name()} {self.away_goals}"
 
 
-def add_team(team):
-    TEAMS[team.get_name()] = team
+def add_team(name, reg_date, group):
+    TEAMS[name] = Team(name, reg_date, group)
+    return TEAMS[name]
 
-def add_match(match):
+def add_match(home, away, home_goals, away_goals):
+    match = Match(get_team(home), get_team(away), home_goals, away_goals)
     MATCHES.append(match)
+    return match
 
 def get_team(team_name):
     return TEAMS[team_name]
@@ -124,8 +128,16 @@ def edit_team(team_name, new_name, reg_date, group):
     team.set_group(group)
     return team
 
+def edit_match(match_index, home, away, home_goals, away_goals):
+    MATCHES[match_index].delete()
+    MATCHES[match_index] = Match(get_team(home), get_team(away), home_goals, away_goals)
+    return MATCHES[match_index]
+
 def get_team_names():
     return list(TEAMS.keys())
+
+def get_all_matches():
+    return MATCHES
 
 def get_groups():
     group_numbers = set(team.get_group() for team in TEAMS.values())
