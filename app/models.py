@@ -89,10 +89,9 @@ class Match:
 
 
 def get_groups():
-    groups = {}
+    group_numbers = set(team.group for team in TEAMS.values())
+    groups = {group: [] for group in sorted(group_numbers)}
     for team in TEAMS.values():
-        if team.group not in groups:
-            groups[team.group] = []
         groups[team.group].append(team)
     for group in groups.values():
         group.sort(key=lambda team: team.rank)
