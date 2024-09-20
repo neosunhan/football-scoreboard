@@ -1,51 +1,25 @@
-<!doctype html>
-<html>
-    <head>
-        <title>We are the Champions</title>
-    </head>
-    <body>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-        <h1>Rankings</h1>
-        {% for group in teams %}
-        <div><h2>Group {{ group }}</h2></div>
-        {% for i in range(teams[group]|length) %}
-        <div>
-            <p>{{ teams[group][i] }} {% if i < 4 %} <b>Qualifiying</b> {% endif %}</p>
-        </div>
+{% extends "base.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
         {% endfor %}
-        {% endfor %}
-        <form action="{{ url_for('clear') }}" method="post">
-            <input class="danger" type="submit" value="Clear All Data" onclick="return confirm('Are you sure?');">
-        </form>
-        <h2>Submit Teams</h2>
-        <form action="" method="post">
-            {{ teams_form.hidden_tag() }}
-            <p>
-                {{ teams_form.teams(cols=32, rows=4) }}<br>
-                {% for error in teams_form.teams.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </p>
-            <p>{{ teams_form.submit() }}</p>
-        </form>
-        <h2>Submit Matches</h2>
-        <form action="" method="post">
-            {{ matches_form.hidden_tag() }}
-            <p>
-                {{ matches_form.matches(cols=32, rows=4) }}<br>
-                {% for error in matches_form.matches.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </p>
-            <p>{{ matches_form.submit() }}</p>
-        </form>
-    </body>
-</html>
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <h1>Rankings</h1>
+    {% for group in teams %}
+    <div><h2>Group {{ group }}</h2></div>
+    {% for i in range(teams[group]|length) %}
+    <div>
+        <p>{{ teams[group][i] }} {% if i < 4 %} <b>Qualifiying</b> {% endif %}</p>
+    </div>
+    {% endfor %}
+    {% endfor %}
+    <form action="{{ url_for('clear') }}" method="post">
+        <input class="danger" type="submit" value="Clear All Data" onclick="return confirm('Are you sure?');">
+    </form>
+{% endblock %}
