@@ -88,6 +88,12 @@ class Match:
         return f"{self.home} {self.home_goals} - {self.away} {self.away_goals}"
 
 
+def add_team(team):
+    TEAMS[team.name] = team
+
+def add_match(match):
+    MATCHES.append(match)
+
 def get_groups():
     group_numbers = set(team.group for team in TEAMS.values())
     groups = {group: [] for group in sorted(group_numbers)}
