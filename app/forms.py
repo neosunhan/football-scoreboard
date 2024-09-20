@@ -6,3 +6,6 @@ class TeamsForm(FlaskForm):
     teams = TextAreaField('Teams Input', validators=[DataRequired(), Length(min=1)])
     submit = SubmitField('Submit Teams')
 
+class MatchesForm(FlaskForm):
+    matches = TextAreaField('Matches Input', validators=[DataRequired(), Length(min=1)])
+    submit = SubmitField('Submit Matches')

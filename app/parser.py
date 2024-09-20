@@ -12,3 +12,11 @@ def parse_teams(teams_str):
         group_num = int(group_num)
         teams.append(Team(name=name, registration_date=reg_date, group=group_num))
     return teams
+
+def parse_matches(matches_str):
+    matches = []
+    for match_str in matches_str.split('\n'):
+        home, away, home_goals, away_goals = match_str.split()
+        home_goals, away_goals = int(home_goals), int(away_goals)
+        matches.append(Match(team_a=home, team_b=away, goals_a=home_goals, goals_b=away_goals))
+    return matches

@@ -10,7 +10,7 @@ class Team(db.Model):
     # matches: so.WriteOnlyMapped['Match'] = so.relationship(back_populates='team')
 
     def __repr__(self):
-        return f"Team {self.name}, Group {self.group}, Registered on {self.registration_date}"
+        return f"{self.name}, registered on {self.registration_date}"
     
 class Match(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
